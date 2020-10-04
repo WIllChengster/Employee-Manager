@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-employeemanager-dev-185730-authRole",
+      "UnauthRoleArn": "arn:aws:iam::422446817846:role/amplify-employeemanager-dev-185730-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::422446817846:role/amplify-employeemanager-dev-185730-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-employeemanager-dev-185730-deployment",
+      "UnauthRoleName": "amplify-employeemanager-dev-185730-unauthRole",
+      "StackName": "amplify-employeemanager-dev-185730",
+      "StackId": "arn:aws:cloudformation:us-east-1:422446817846:stack/amplify-employeemanager-dev-185730/f6fcb110-05e4-11eb-b39a-0a6865628217",
+      "AmplifyAppId": "db36wih6hx4tx"
+    }
+  }
+}
