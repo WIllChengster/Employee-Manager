@@ -12,10 +12,11 @@ const themeInstance = createMuiTheme({
             main: '#131c2e',
             light: '#202b43'
         },
-        text: {
-            primary: '#e5ebef'
-        }
-    }
+        secondary: {
+            main: '#25334e',
+            light: '#e5ebef'
+        },
+    },
 })
 
 const Theming = ({children}: ThemingProps) => {
