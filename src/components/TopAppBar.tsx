@@ -65,9 +65,7 @@ const TopAppBar = ({ drawerOpen, drawerWidth, setDrawerOpen }: TopAppBarProps) =
                 </IconButton>
                 <Typography 
                     variant="h6" 
-                    className={clsx(classes.title, {
-                        [classes.hide]: drawerOpen
-                    })} 
+                    className={classes.title} 
                 >
                     e-Manager
                 </Typography>

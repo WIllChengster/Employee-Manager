@@ -7,7 +7,15 @@ type ThemingProps = {
 
 const themeInstance = createMuiTheme({
     spacing: 2,
-    
+    palette: {
+        primary: {
+            main: '#131c2e',
+            light: '#202b43'
+        },
+        text: {
+            primary: '#e5ebef'
+        }
+    }
 })
 
 const Theming = ({children}: ThemingProps) => {

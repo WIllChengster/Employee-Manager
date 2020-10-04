@@ -4,7 +4,7 @@ import TopAppBar from './components/TopAppBar'
 import AppDrawer from './components/AppDrawer'
 import Theming from './components/Theming'
 
-const drawerWidth = 200
+const drawerWidth = 250
 
 const App = () => {
 
