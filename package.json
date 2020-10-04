@@ -5,6 +5,7 @@
   "dependencies": {
     "@aws-amplify/ui-react": "^0.2.23",
     "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -13,6 +14,7 @@
     "@types/react": "^16.9.50",
     "@types/react-dom": "^16.9.8",
     "aws-amplify": "^3.3.3",
+    "clsx": "^1.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
