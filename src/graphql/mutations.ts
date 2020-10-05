@@ -62,12 +62,12 @@ export const deleteEmployee = /* GraphQL */ `
     }
   }
 `;
-export const createSkills = /* GraphQL */ `
-  mutation CreateSkills(
-    $input: CreateSkillsInput!
-    $condition: ModelSkillsConditionInput
+export const createSkill = /* GraphQL */ `
+  mutation CreateSkill(
+    $input: CreateSkillInput!
+    $condition: ModelSkillConditionInput
   ) {
-    createSkills(input: $input, condition: $condition) {
+    createSkill(input: $input, condition: $condition) {
       id
       name
       createdAt
@@ -75,12 +75,12 @@ export const createSkills = /* GraphQL */ `
     }
   }
 `;
-export const updateSkills = /* GraphQL */ `
-  mutation UpdateSkills(
-    $input: UpdateSkillsInput!
-    $condition: ModelSkillsConditionInput
+export const updateSkill = /* GraphQL */ `
+  mutation UpdateSkill(
+    $input: UpdateSkillInput!
+    $condition: ModelSkillConditionInput
   ) {
-    updateSkills(input: $input, condition: $condition) {
+    updateSkill(input: $input, condition: $condition) {
       id
       name
       createdAt
@@ -88,12 +88,12 @@ export const updateSkills = /* GraphQL */ `
     }
   }
 `;
-export const deleteSkills = /* GraphQL */ `
-  mutation DeleteSkills(
-    $input: DeleteSkillsInput!
-    $condition: ModelSkillsConditionInput
+export const deleteSkill = /* GraphQL */ `
+  mutation DeleteSkill(
+    $input: DeleteSkillInput!
+    $condition: ModelSkillConditionInput
   ) {
-    deleteSkills(input: $input, condition: $condition) {
+    deleteSkill(input: $input, condition: $condition) {
       id
       name
       createdAt

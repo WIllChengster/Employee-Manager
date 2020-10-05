@@ -66,24 +66,24 @@ export type DeleteEmployeeInput = {
   id?: string | null,
 };
 
-export type CreateSkillsInput = {
+export type CreateSkillInput = {
   id?: string | null,
   name: string,
 };
 
-export type ModelSkillsConditionInput = {
+export type ModelSkillConditionInput = {
   name?: ModelStringInput | null,
-  and?: Array< ModelSkillsConditionInput | null > | null,
-  or?: Array< ModelSkillsConditionInput | null > | null,
-  not?: ModelSkillsConditionInput | null,
+  and?: Array< ModelSkillConditionInput | null > | null,
+  or?: Array< ModelSkillConditionInput | null > | null,
+  not?: ModelSkillConditionInput | null,
 };
 
-export type UpdateSkillsInput = {
+export type UpdateSkillInput = {
   id: string,
   name?: string | null,
 };
 
-export type DeleteSkillsInput = {
+export type DeleteSkillInput = {
   id?: string | null,
 };
 
@@ -112,12 +112,12 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type ModelSkillsFilterInput = {
+export type ModelSkillFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
-  and?: Array< ModelSkillsFilterInput | null > | null,
-  or?: Array< ModelSkillsFilterInput | null > | null,
-  not?: ModelSkillsFilterInput | null,
+  and?: Array< ModelSkillFilterInput | null > | null,
+  or?: Array< ModelSkillFilterInput | null > | null,
+  not?: ModelSkillFilterInput | null,
 };
 
 export type CreateEmployeeMutationVariables = {
@@ -132,7 +132,7 @@ export type CreateEmployeeMutation = {
     firstname: string,
     lastname: string,
     skills:  Array< {
-      __typename: "Skills",
+      __typename: "Skill",
       id: string,
       name: string,
       createdAt: string,
@@ -155,7 +155,7 @@ export type UpdateEmployeeMutation = {
     firstname: string,
     lastname: string,
     skills:  Array< {
-      __typename: "Skills",
+      __typename: "Skill",
       id: string,
       name: string,
       createdAt: string,
@@ -178,7 +178,7 @@ export type DeleteEmployeeMutation = {
     firstname: string,
     lastname: string,
     skills:  Array< {
-      __typename: "Skills",
+      __typename: "Skill",
       id: string,
       name: string,
       createdAt: string,
@@ -189,14 +189,14 @@ export type DeleteEmployeeMutation = {
   } | null,
 };
 
-export type CreateSkillsMutationVariables = {
-  input: CreateSkillsInput,
-  condition?: ModelSkillsConditionInput | null,
+export type CreateSkillMutationVariables = {
+  input: CreateSkillInput,
+  condition?: ModelSkillConditionInput | null,
 };
 
-export type CreateSkillsMutation = {
-  createSkills:  {
-    __typename: "Skills",
+export type CreateSkillMutation = {
+  createSkill:  {
+    __typename: "Skill",
     id: string,
     name: string,
     createdAt: string,
@@ -204,14 +204,14 @@ export type CreateSkillsMutation = {
   } | null,
 };
 
-export type UpdateSkillsMutationVariables = {
-  input: UpdateSkillsInput,
-  condition?: ModelSkillsConditionInput | null,
+export type UpdateSkillMutationVariables = {
+  input: UpdateSkillInput,
+  condition?: ModelSkillConditionInput | null,
 };
 
-export type UpdateSkillsMutation = {
-  updateSkills:  {
-    __typename: "Skills",
+export type UpdateSkillMutation = {
+  updateSkill:  {
+    __typename: "Skill",
     id: string,
     name: string,
     createdAt: string,
@@ -219,14 +219,14 @@ export type UpdateSkillsMutation = {
   } | null,
 };
 
-export type DeleteSkillsMutationVariables = {
-  input: DeleteSkillsInput,
-  condition?: ModelSkillsConditionInput | null,
+export type DeleteSkillMutationVariables = {
+  input: DeleteSkillInput,
+  condition?: ModelSkillConditionInput | null,
 };
 
-export type DeleteSkillsMutation = {
-  deleteSkills:  {
-    __typename: "Skills",
+export type DeleteSkillMutation = {
+  deleteSkill:  {
+    __typename: "Skill",
     id: string,
     name: string,
     createdAt: string,
@@ -245,7 +245,7 @@ export type GetEmployeeQuery = {
     firstname: string,
     lastname: string,
     skills:  Array< {
-      __typename: "Skills",
+      __typename: "Skill",
       id: string,
       name: string,
       createdAt: string,
@@ -271,7 +271,7 @@ export type ListEmployeesQuery = {
       firstname: string,
       lastname: string,
       skills:  Array< {
-        __typename: "Skills",
+        __typename: "Skill",
         id: string,
         name: string,
         createdAt: string,
@@ -284,13 +284,13 @@ export type ListEmployeesQuery = {
   } | null,
 };
 
-export type GetSkillsQueryVariables = {
+export type GetSkillQueryVariables = {
   id: string,
 };
 
-export type GetSkillsQuery = {
-  getSkills:  {
-    __typename: "Skills",
+export type GetSkillQuery = {
+  getSkill:  {
+    __typename: "Skill",
     id: string,
     name: string,
     createdAt: string,
@@ -298,17 +298,17 @@ export type GetSkillsQuery = {
   } | null,
 };
 
-export type ListSkillssQueryVariables = {
-  filter?: ModelSkillsFilterInput | null,
+export type ListSkillsQueryVariables = {
+  filter?: ModelSkillFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListSkillssQuery = {
-  listSkillss:  {
-    __typename: "ModelSkillsConnection",
+export type ListSkillsQuery = {
+  listSkills:  {
+    __typename: "ModelSkillConnection",
     items:  Array< {
-      __typename: "Skills",
+      __typename: "Skill",
       id: string,
       name: string,
       createdAt: string,
@@ -325,7 +325,7 @@ export type OnCreateEmployeeSubscription = {
     firstname: string,
     lastname: string,
     skills:  Array< {
-      __typename: "Skills",
+      __typename: "Skill",
       id: string,
       name: string,
       createdAt: string,
@@ -343,7 +343,7 @@ export type OnUpdateEmployeeSubscription = {
     firstname: string,
     lastname: string,
     skills:  Array< {
-      __typename: "Skills",
+      __typename: "Skill",
       id: string,
       name: string,
       createdAt: string,
@@ -361,7 +361,7 @@ export type OnDeleteEmployeeSubscription = {
     firstname: string,
     lastname: string,
     skills:  Array< {
-      __typename: "Skills",
+      __typename: "Skill",
       id: string,
       name: string,
       createdAt: string,
@@ -372,9 +372,9 @@ export type OnDeleteEmployeeSubscription = {
   } | null,
 };
 
-export type OnCreateSkillsSubscription = {
-  onCreateSkills:  {
-    __typename: "Skills",
+export type OnCreateSkillSubscription = {
+  onCreateSkill:  {
+    __typename: "Skill",
     id: string,
     name: string,
     createdAt: string,
@@ -382,9 +382,9 @@ export type OnCreateSkillsSubscription = {
   } | null,
 };
 
-export type OnUpdateSkillsSubscription = {
-  onUpdateSkills:  {
-    __typename: "Skills",
+export type OnUpdateSkillSubscription = {
+  onUpdateSkill:  {
+    __typename: "Skill",
     id: string,
     name: string,
     createdAt: string,
@@ -392,9 +392,9 @@ export type OnUpdateSkillsSubscription = {
   } | null,
 };
 
-export type OnDeleteSkillsSubscription = {
-  onDeleteSkills:  {
-    __typename: "Skills",
+export type OnDeleteSkillSubscription = {
+  onDeleteSkill:  {
+    __typename: "Skill",
     id: string,
     name: string,
     createdAt: string,

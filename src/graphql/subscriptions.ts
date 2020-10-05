@@ -53,9 +53,9 @@ export const onDeleteEmployee = /* GraphQL */ `
     }
   }
 `;
-export const onCreateSkills = /* GraphQL */ `
-  subscription OnCreateSkills {
-    onCreateSkills {
+export const onCreateSkill = /* GraphQL */ `
+  subscription OnCreateSkill {
+    onCreateSkill {
       id
       name
       createdAt
@@ -63,9 +63,9 @@ export const onCreateSkills = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateSkills = /* GraphQL */ `
-  subscription OnUpdateSkills {
-    onUpdateSkills {
+export const onUpdateSkill = /* GraphQL */ `
+  subscription OnUpdateSkill {
+    onUpdateSkill {
       id
       name
       createdAt
@@ -73,9 +73,9 @@ export const onUpdateSkills = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteSkills = /* GraphQL */ `
-  subscription OnDeleteSkills {
-    onDeleteSkills {
+export const onDeleteSkill = /* GraphQL */ `
+  subscription OnDeleteSkill {
+    onDeleteSkill {
       id
       name
       createdAt

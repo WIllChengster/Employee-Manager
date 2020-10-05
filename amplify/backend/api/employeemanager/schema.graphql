@@ -2,10 +2,10 @@ type Employee @model {
   id: ID!
   firstname: String!
   lastname: String!
-  skills: [Skills!]!
+  skills: [Skill!]!
 }
 
-type Skills @model{
+type Skill @model{
   id: ID!
   name: String!
 }

@@ -43,9 +43,9 @@ export const listEmployees = /* GraphQL */ `
     }
   }
 `;
-export const getSkills = /* GraphQL */ `
-  query GetSkills($id: ID!) {
-    getSkills(id: $id) {
+export const getSkill = /* GraphQL */ `
+  query GetSkill($id: ID!) {
+    getSkill(id: $id) {
       id
       name
       createdAt
@@ -53,13 +53,13 @@ export const getSkills = /* GraphQL */ `
     }
   }
 `;
-export const listSkillss = /* GraphQL */ `
-  query ListSkillss(
-    $filter: ModelSkillsFilterInput
+export const listSkills = /* GraphQL */ `
+  query ListSkills(
+    $filter: ModelSkillFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listSkillss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listSkills(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name

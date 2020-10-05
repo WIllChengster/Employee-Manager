@@ -3,12 +3,49 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import awsExports from './aws-exports';
+import Amplify, { Auth } from 'aws-amplify'
+import AWSAppSyncClient, { AUTH_TYPE, createAppSyncLink } from 'aws-appsync'
+import { ApolloProvider, ApolloClient, InMemoryCache, ApolloLink, createHttpLink } from '@apollo/client';
+import { createAuthLink } from "aws-appsync-auth-link";
+// import gql from 'graphql-tag'
+// Auth.configure(awsExports)
+
+
+Amplify.configure(awsExports)
+
+const config = {
+  url: awsExports.aws_appsync_graphqlEndpoint,
+  region: awsExports.aws_appsync_region,
+  auth: {
+    type: AUTH_TYPE.API_KEY, // or type: awsExports.aws_appsync_authenticationType,
+    apiKey: awsExports.aws_appsync_apiKey,
+  },
+  // complexObjectsCredentials: () => Auth.currentCredentials()
+}
+
+const link = ApolloLink.from([
+  // @ts-ignore
+  createAuthLink(config),
+  createHttpLink({uri: awsExports.aws_appsync_graphqlEndpoint})
+  // @ts-ignore
+  // createSubscriptionHandshakeLink(config)
+]);
+
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache({ addTypename: false })
+});
+
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <ApolloProvider client={client as any} >
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
