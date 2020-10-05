@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { SyntheticEvent, useState } from 'react'
 import clsx from 'clsx'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import { drawerWidth } from '../App'
+import Input from '@material-ui/core/Input'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
@@ -50,6 +51,17 @@ type EmployeesProps = {
 const Employees = ({ drawerOpen }: EmployeesProps) => {
     const classes = useStyles()
     const [employees, setEmployees] = useState<any[]>([])
+    const [firstname, setFirstname] = useState<string>('')
+    const [lastname, setLastname] = useState<string>('')
+    const [skills, setSkills] = useState<any[]>([])
+
+    const handleFirstname = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFirstname( e.currentTarget.value)
+    }
+
+    const handleLastname = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLastname( prevVal => e.currentTarget.value)
+    }
 
     return (
         <Container
@@ -64,9 +76,22 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
             
             <Paper className={classes.paper} >
                 <form>
-                    <TextField id="firstname" label="First Name"/>
-                    <TextField id="lastname" label="Last Name"/>
-                    <Button variant="contained" color="default" >Create Employee</Button>
+                    <TextField id="firstname" 
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>handleFirstname(e)} 
+                        value={firstname} 
+                        label="First Name"
+                    />
+                   <TextField id="firstname" 
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>handleLastname(e)} 
+                        value={lastname} 
+                        label="Last Name"
+                    />                    
+                    <Button 
+                        variant="contained" 
+                        color="default" 
+                    >
+                        Create Employee
+                    </Button>
                 </form>
 
             </Paper>
