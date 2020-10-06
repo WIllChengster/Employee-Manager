@@ -1,10 +1,8 @@
 import React from 'react'
-import clsx from 'clsx'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import DrawerList from './DrawerList'
 import { drawerWidth } from '../App'
@@ -38,8 +36,6 @@ const useStyles = makeStyles( theme => ({
 
 
 const AppDrawer = ({ drawerOpen, setDrawerOpen }: AppDrawerProps) => {
-    const theme = useTheme()
-
     const classes = useStyles()
 
     return (

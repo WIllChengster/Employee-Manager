@@ -4,13 +4,10 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import awsExports from './aws-exports';
-import Amplify, { Auth } from 'aws-amplify'
-import AWSAppSyncClient, { AUTH_TYPE, createAppSyncLink } from 'aws-appsync'
+import Amplify from 'aws-amplify'
+import { AUTH_TYPE } from 'aws-appsync'
 import { ApolloProvider, ApolloClient, InMemoryCache, ApolloLink, createHttpLink } from '@apollo/client';
 import { createAuthLink } from "aws-appsync-auth-link";
-// import gql from 'graphql-tag'
-// Auth.configure(awsExports)
-
 
 Amplify.configure(awsExports)
 
@@ -21,7 +18,6 @@ const config = {
     type: AUTH_TYPE.API_KEY, // or type: awsExports.aws_appsync_authenticationType,
     apiKey: awsExports.aws_appsync_apiKey,
   },
-  // complexObjectsCredentials: () => Auth.currentCredentials()
 }
 
 const link = ApolloLink.from([

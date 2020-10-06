@@ -7,6 +7,7 @@ import Theming from './components/Theming'
 import { Route } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
 import Employees from './components/Employees'
+import Skills from './components/Skills'
 
 export const drawerWidth = 250
 const useStyles = makeStyles({
@@ -34,7 +35,7 @@ const App = () => {
         />
         <Route exact path='/' component={() => <Dashboard drawerOpen={drawerOpen} />} />
         <Route path='/employees' component={() => <Employees drawerOpen={drawerOpen} />} />
-
+        <Route path='/skills' component={() => <Skills drawerOpen={drawerOpen} />} />
         </div>
         </CssBaseline>
     </Theming>

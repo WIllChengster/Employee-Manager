@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography';
 import { drawerWidth } from '../App'
@@ -38,7 +38,6 @@ type DashboardProps = {
     drawerOpen: boolean
 }
 const Dashboard = ({ drawerOpen }: DashboardProps) => {
-    const theme = useTheme()
     const classes = useStyles()
     return (
         <Container

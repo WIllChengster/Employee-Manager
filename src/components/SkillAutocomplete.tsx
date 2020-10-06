@@ -141,12 +141,14 @@ type SkillAutoCompleteProps = {
   handleSkills: Function
 }
 const SkillAutocomplete = ({handleSkills}: SkillAutoCompleteProps) => {
-  const { loading, error, data } = useQuery(LIST_SKILLS)
-  const [skills, updateSkills] = useState([{id: '', name:'hey'}])
+  const { loading, data } = useQuery(LIST_SKILLS)
+  const [skills, updateSkills] = useState([{id: '', name:''}])
+  
   useEffect( () => {
     if(!loading){
       updateSkills( prevSkills => data.listSkills.items)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading] )
   const {
     getRootProps,
@@ -169,13 +171,14 @@ const SkillAutocomplete = ({handleSkills}: SkillAutoCompleteProps) => {
   
   useEffect( () => {
     handleSkills(value)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
 
   return (
     <NoSsr>
       <div>
         <div {...getRootProps()}>
-          <Label {...getInputLabelProps()}>Skills</Label>
+          <Label {...getInputLabelProps()}></Label>
           <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
             {value.map((option: SkillsType, index: number) => (
               <Tag label={option.name} {...getTagProps({ index })} />

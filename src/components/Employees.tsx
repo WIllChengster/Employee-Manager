@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import { drawerWidth } from '../App'
 import EmployeeList from './EmployeeList'
@@ -14,7 +13,7 @@ import { SkillsType } from '../types'
 
 const useStyles = makeStyles(theme => ({
     content: {
-        // backgroundColor: theme.palette.text.secondary,
+        backgroundColor: theme.palette.secondary.light,
         flexGrow: 1,
         padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {
@@ -86,12 +85,20 @@ const CreateEmployeeSkill = gql`
 
 const Employees = ({ drawerOpen }: EmployeesProps) => {
     const classes = useStyles()
-    const [employees, setEmployees] = useState<any[]>([])
     const [firstname, setFirstname] = useState<string>('')
     const [lastname, setLastname] = useState<string>('')
     const [skills, setSkills] = useState<SkillsType[]>([])
-    const [addEmployee, { loading: emp_loading, error: emp_error }] = useMutation(CreateEmployee)
-    const [addEmployeeSkill, { loading: empSkillLoading, error: empSkillError }] = useMutation(CreateEmployeeSkill)
+    const [addEmployee] = useMutation(CreateEmployee)
+    const [addEmployeeSkill] = useMutation(CreateEmployeeSkill)
+    const [btnDisable, setBtnDisable] = useState<boolean>(true)
+
+    useEffect( () => {
+        if(!!firstname && !!lastname && !!skills.length ){
+            setBtnDisable( prevState => false)
+        } else {
+            setBtnDisable( prevState => true)
+        }
+    }, [firstname, lastname, skills] )
 
     const handleFirstname = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFirstname(e.currentTarget.value)
@@ -104,7 +111,6 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
 
     const handleSkills = (skills: SkillsType[]) => {
         setSkills(prevState => skills)
-        console.log(skills);
     }
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -124,7 +130,7 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
     }
 
     return (
-        <Container
+        <div
             className={clsx(classes.content, {
                 [classes.contentShift]: drawerOpen,
             })}
@@ -154,8 +160,10 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
                             variant='outlined'
                         />
                     </div>
+                    <Typography>Skills</Typography>
                     <SkillAutoComplete handleSkills={handleSkills} />
                     <Button
+                        disabled={btnDisable}
                         className={classes.button}
                         variant="contained"
                         color="default"
@@ -169,7 +177,7 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
             </Paper>
 
             <EmployeeList/>
-        </Container>
+        </div>
     )
 }
 
