@@ -9,10 +9,12 @@ export const getEmployee = /* GraphQL */ `
       firstname
       lastname
       skills {
-        id
-        name
-        createdAt
-        updatedAt
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -31,6 +33,60 @@ export const listEmployees = /* GraphQL */ `
         firstname
         lastname
         skills {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getEmployeeSkill = /* GraphQL */ `
+  query GetEmployeeSkill($id: ID!) {
+    getEmployeeSkill(id: $id) {
+      id
+      employee {
+        id
+        firstname
+        lastname
+        skills {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      skill {
+        id
+        name
+        employees {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listEmployeeSkills = /* GraphQL */ `
+  query ListEmployeeSkills(
+    $filter: ModelEmployeeSkillFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listEmployeeSkills(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        employee {
+          id
+          firstname
+          lastname
+          createdAt
+          updatedAt
+        }
+        skill {
           id
           name
           createdAt
@@ -48,6 +104,14 @@ export const getSkill = /* GraphQL */ `
     getSkill(id: $id) {
       id
       name
+      employees {
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -63,6 +127,9 @@ export const listSkills = /* GraphQL */ `
       items {
         id
         name
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }

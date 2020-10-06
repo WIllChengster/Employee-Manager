@@ -66,6 +66,28 @@ export type DeleteEmployeeInput = {
   id?: string | null,
 };
 
+export type CreateEmployeeSkillInput = {
+  id?: string | null,
+  employeeSkillEmployeeId: string,
+  employeeSkillSkillId: string,
+};
+
+export type ModelEmployeeSkillConditionInput = {
+  and?: Array< ModelEmployeeSkillConditionInput | null > | null,
+  or?: Array< ModelEmployeeSkillConditionInput | null > | null,
+  not?: ModelEmployeeSkillConditionInput | null,
+};
+
+export type UpdateEmployeeSkillInput = {
+  id: string,
+  employeeSkillEmployeeId?: string | null,
+  employeeSkillSkillId?: string | null,
+};
+
+export type DeleteEmployeeSkillInput = {
+  id?: string | null,
+};
+
 export type CreateSkillInput = {
   id?: string | null,
   name: string,
@@ -112,6 +134,13 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
+export type ModelEmployeeSkillFilterInput = {
+  id?: ModelIDInput | null,
+  and?: Array< ModelEmployeeSkillFilterInput | null > | null,
+  or?: Array< ModelEmployeeSkillFilterInput | null > | null,
+  not?: ModelEmployeeSkillFilterInput | null,
+};
+
 export type ModelSkillFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -131,13 +160,16 @@ export type CreateEmployeeMutation = {
     id: string,
     firstname: string,
     lastname: string,
-    skills:  Array< {
-      __typename: "Skill",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-    } >,
+    skills:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -154,13 +186,16 @@ export type UpdateEmployeeMutation = {
     id: string,
     firstname: string,
     lastname: string,
-    skills:  Array< {
-      __typename: "Skill",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-    } >,
+    skills:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -177,13 +212,127 @@ export type DeleteEmployeeMutation = {
     id: string,
     firstname: string,
     lastname: string,
-    skills:  Array< {
+    skills:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateEmployeeSkillMutationVariables = {
+  input: CreateEmployeeSkillInput,
+  condition?: ModelEmployeeSkillConditionInput | null,
+};
+
+export type CreateEmployeeSkillMutation = {
+  createEmployeeSkill:  {
+    __typename: "EmployeeSkill",
+    id: string,
+    employee:  {
+      __typename: "Employee",
+      id: string,
+      firstname: string,
+      lastname: string,
+      skills:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    skill:  {
       __typename: "Skill",
       id: string,
       name: string,
+      employees:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-    } >,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateEmployeeSkillMutationVariables = {
+  input: UpdateEmployeeSkillInput,
+  condition?: ModelEmployeeSkillConditionInput | null,
+};
+
+export type UpdateEmployeeSkillMutation = {
+  updateEmployeeSkill:  {
+    __typename: "EmployeeSkill",
+    id: string,
+    employee:  {
+      __typename: "Employee",
+      id: string,
+      firstname: string,
+      lastname: string,
+      skills:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    skill:  {
+      __typename: "Skill",
+      id: string,
+      name: string,
+      employees:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteEmployeeSkillMutationVariables = {
+  input: DeleteEmployeeSkillInput,
+  condition?: ModelEmployeeSkillConditionInput | null,
+};
+
+export type DeleteEmployeeSkillMutation = {
+  deleteEmployeeSkill:  {
+    __typename: "EmployeeSkill",
+    id: string,
+    employee:  {
+      __typename: "Employee",
+      id: string,
+      firstname: string,
+      lastname: string,
+      skills:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    skill:  {
+      __typename: "Skill",
+      id: string,
+      name: string,
+      employees:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -199,6 +348,16 @@ export type CreateSkillMutation = {
     __typename: "Skill",
     id: string,
     name: string,
+    employees:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -214,6 +373,16 @@ export type UpdateSkillMutation = {
     __typename: "Skill",
     id: string,
     name: string,
+    employees:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -229,6 +398,16 @@ export type DeleteSkillMutation = {
     __typename: "Skill",
     id: string,
     name: string,
+    employees:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -244,13 +423,16 @@ export type GetEmployeeQuery = {
     id: string,
     firstname: string,
     lastname: string,
-    skills:  Array< {
-      __typename: "Skill",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-    } >,
+    skills:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -270,13 +452,80 @@ export type ListEmployeesQuery = {
       id: string,
       firstname: string,
       lastname: string,
-      skills:  Array< {
+      skills:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type GetEmployeeSkillQueryVariables = {
+  id: string,
+};
+
+export type GetEmployeeSkillQuery = {
+  getEmployeeSkill:  {
+    __typename: "EmployeeSkill",
+    id: string,
+    employee:  {
+      __typename: "Employee",
+      id: string,
+      firstname: string,
+      lastname: string,
+      skills:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    skill:  {
+      __typename: "Skill",
+      id: string,
+      name: string,
+      employees:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListEmployeeSkillsQueryVariables = {
+  filter?: ModelEmployeeSkillFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEmployeeSkillsQuery = {
+  listEmployeeSkills:  {
+    __typename: "ModelEmployeeSkillConnection",
+    items:  Array< {
+      __typename: "EmployeeSkill",
+      id: string,
+      employee:  {
+        __typename: "Employee",
+        id: string,
+        firstname: string,
+        lastname: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      skill:  {
         __typename: "Skill",
         id: string,
         name: string,
         createdAt: string,
         updatedAt: string,
-      } >,
+      },
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -293,6 +542,16 @@ export type GetSkillQuery = {
     __typename: "Skill",
     id: string,
     name: string,
+    employees:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -311,6 +570,10 @@ export type ListSkillsQuery = {
       __typename: "Skill",
       id: string,
       name: string,
+      employees:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -324,13 +587,16 @@ export type OnCreateEmployeeSubscription = {
     id: string,
     firstname: string,
     lastname: string,
-    skills:  Array< {
-      __typename: "Skill",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-    } >,
+    skills:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -342,13 +608,16 @@ export type OnUpdateEmployeeSubscription = {
     id: string,
     firstname: string,
     lastname: string,
-    skills:  Array< {
-      __typename: "Skill",
-      id: string,
-      name: string,
-      createdAt: string,
-      updatedAt: string,
-    } >,
+    skills:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -360,13 +629,112 @@ export type OnDeleteEmployeeSubscription = {
     id: string,
     firstname: string,
     lastname: string,
-    skills:  Array< {
+    skills:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateEmployeeSkillSubscription = {
+  onCreateEmployeeSkill:  {
+    __typename: "EmployeeSkill",
+    id: string,
+    employee:  {
+      __typename: "Employee",
+      id: string,
+      firstname: string,
+      lastname: string,
+      skills:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    skill:  {
       __typename: "Skill",
       id: string,
       name: string,
+      employees:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-    } >,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateEmployeeSkillSubscription = {
+  onUpdateEmployeeSkill:  {
+    __typename: "EmployeeSkill",
+    id: string,
+    employee:  {
+      __typename: "Employee",
+      id: string,
+      firstname: string,
+      lastname: string,
+      skills:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    skill:  {
+      __typename: "Skill",
+      id: string,
+      name: string,
+      employees:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteEmployeeSkillSubscription = {
+  onDeleteEmployeeSkill:  {
+    __typename: "EmployeeSkill",
+    id: string,
+    employee:  {
+      __typename: "Employee",
+      id: string,
+      firstname: string,
+      lastname: string,
+      skills:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    skill:  {
+      __typename: "Skill",
+      id: string,
+      name: string,
+      employees:  {
+        __typename: "ModelEmployeeSkillConnection",
+        nextToken: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -377,6 +745,16 @@ export type OnCreateSkillSubscription = {
     __typename: "Skill",
     id: string,
     name: string,
+    employees:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -387,6 +765,16 @@ export type OnUpdateSkillSubscription = {
     __typename: "Skill",
     id: string,
     name: string,
+    employees:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -397,6 +785,16 @@ export type OnDeleteSkillSubscription = {
     __typename: "Skill",
     id: string,
     name: string,
+    employees:  {
+      __typename: "ModelEmployeeSkillConnection",
+      items:  Array< {
+        __typename: "EmployeeSkill",
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,

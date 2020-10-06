@@ -4,11 +4,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import { drawerWidth } from '../App'
+import EmployeeList from './EmployeeList'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import SkillAutoComplete from './SkillAutocomplete'
 import { useMutation, gql } from '@apollo/client'
+import { SkillsType } from '../types'
 
 const useStyles = makeStyles(theme => ({
     content: {
@@ -66,21 +68,30 @@ type EmployeesProps = {
     drawerOpen: boolean
 }
 
-const CREATE_EMPLOYEE = gql`
-  mutation CREATE_EMPLOYEE($firstname: String!, $lastname: String!, $skills: [String]!) {
-    createEmployee(input: {firstname: $firstname, lastname: $lastname, skills: $skill}) {
-      affected_rows
+const CreateEmployee = gql`
+  mutation CreateEmployee($firstname: String!, $lastname: String!) {
+    createEmployee(input: {firstname: $firstname, lastname: $lastname}) {
+      id
     }
   }
 `;
+
+const CreateEmployeeSkill = gql`
+   mutation CreateEmployeeSkill($employeeId: ID!, $skillId: ID!) {
+           createEmployeeSkill( input: {employeeSkillEmployeeId: $employeeId, employeeSkillSkillId: $skillId} ) {
+               id
+           }
+       }
+`
 
 const Employees = ({ drawerOpen }: EmployeesProps) => {
     const classes = useStyles()
     const [employees, setEmployees] = useState<any[]>([])
     const [firstname, setFirstname] = useState<string>('')
     const [lastname, setLastname] = useState<string>('')
-    const [skills, setSkills] = useState<any[]>([])
-    const [addEmployee, { loading, error }]= useMutation(CREATE_EMPLOYEE)
+    const [skills, setSkills] = useState<SkillsType[]>([])
+    const [addEmployee, { loading: emp_loading, error: emp_error }] = useMutation(CreateEmployee)
+    const [addEmployeeSkill, { loading: empSkillLoading, error: empSkillError }] = useMutation(CreateEmployeeSkill)
 
     const handleFirstname = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFirstname(e.currentTarget.value)
@@ -90,18 +101,26 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
         setLastname(e.currentTarget.value)
     }
 
-    type SkillsType = {
-        name: string,
-        id: string,
-    }
+
     const handleSkills = (skills: SkillsType[]) => {
-        setSkills( prevState => skills)
+        setSkills(prevState => skills)
         console.log(skills);
     }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        addEmployee({variables: {firstname, lastname, skills: ['asd']}})
+        addEmployee({ variables: { firstname, lastname } }).then(res => {
+            const employeeId = res.data.createEmployee.id
+            for(let i = 0; i < skills.length; i++){
+                AsyncAddEmployeeSkill(employeeId, skills[i].id)
+            }
+        })
+    }
+
+    const AsyncAddEmployeeSkill = async (employeeId: String, skillId:String) => {
+        const response = addEmployeeSkill({ variables: { employeeId, skillId } })
+        const data = await response
+        return data
     }
 
     return (
@@ -118,16 +137,16 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
             <Paper className={classes.paper} >
                 <form className={classes.form} >
                     <div className={classes.nameContainer} >
-                        <TextField 
-                        id="firstname"
+                        <TextField
+                            id="firstname"
                             className={classes.name}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFirstname(e)}
                             value={firstname}
                             label="First Name"
                             variant="outlined"
                         />
-                        <TextField 
-                        id="lastname"
+                        <TextField
+                            id="lastname"
                             className={classes.name}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleLastname(e)}
                             value={lastname}
@@ -135,7 +154,7 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
                             variant='outlined'
                         />
                     </div>
-                    <SkillAutoComplete handleSkills={handleSkills}/>
+                    <SkillAutoComplete handleSkills={handleSkills} />
                     <Button
                         className={classes.button}
                         variant="contained"
@@ -149,6 +168,7 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
 
             </Paper>
 
+            <EmployeeList/>
         </Container>
     )
 }

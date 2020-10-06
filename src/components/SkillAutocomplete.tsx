@@ -5,6 +5,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
 import { gql, useQuery } from '@apollo/client'
+import { SkillsType } from '../types'
 
 const LIST_SKILLS = gql`query listSkills {
   listSkills {
@@ -136,11 +137,6 @@ const Listbox = styled('ul')`
   }
 `;
 
-type skillType = {
-  id: string,
-  name: string
-}
-
 type SkillAutoCompleteProps = {
   handleSkills: Function
 }
@@ -181,7 +177,7 @@ const SkillAutocomplete = ({handleSkills}: SkillAutoCompleteProps) => {
         <div {...getRootProps()}>
           <Label {...getInputLabelProps()}>Skills</Label>
           <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
-            {value.map((option: skillType, index: number) => (
+            {value.map((option: SkillsType, index: number) => (
               <Tag label={option.name} {...getTagProps({ index })} />
             ))}
             <input {...getInputProps()} />

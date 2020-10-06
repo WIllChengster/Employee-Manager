@@ -9,10 +9,12 @@ export const onCreateEmployee = /* GraphQL */ `
       firstname
       lastname
       skills {
-        id
-        name
-        createdAt
-        updatedAt
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -26,10 +28,12 @@ export const onUpdateEmployee = /* GraphQL */ `
       firstname
       lastname
       skills {
-        id
-        name
-        createdAt
-        updatedAt
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -43,8 +47,94 @@ export const onDeleteEmployee = /* GraphQL */ `
       firstname
       lastname
       skills {
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateEmployeeSkill = /* GraphQL */ `
+  subscription OnCreateEmployeeSkill {
+    onCreateEmployeeSkill {
+      id
+      employee {
+        id
+        firstname
+        lastname
+        skills {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      skill {
         id
         name
+        employees {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateEmployeeSkill = /* GraphQL */ `
+  subscription OnUpdateEmployeeSkill {
+    onUpdateEmployeeSkill {
+      id
+      employee {
+        id
+        firstname
+        lastname
+        skills {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      skill {
+        id
+        name
+        employees {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteEmployeeSkill = /* GraphQL */ `
+  subscription OnDeleteEmployeeSkill {
+    onDeleteEmployeeSkill {
+      id
+      employee {
+        id
+        firstname
+        lastname
+        skills {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      skill {
+        id
+        name
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -58,6 +148,14 @@ export const onCreateSkill = /* GraphQL */ `
     onCreateSkill {
       id
       name
+      employees {
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -68,6 +166,14 @@ export const onUpdateSkill = /* GraphQL */ `
     onUpdateSkill {
       id
       name
+      employees {
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -78,6 +184,14 @@ export const onDeleteSkill = /* GraphQL */ `
     onDeleteSkill {
       id
       name
+      employees {
+        items {
+          id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
