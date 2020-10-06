@@ -8,7 +8,7 @@ import { Route } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
 import Employees from './components/Employees'
 import Skills from './components/Skills'
-
+import EmployeeProfile from './components/EmployeeProfile'
 export const drawerWidth = 250
 const useStyles = makeStyles({
   root: {
@@ -34,7 +34,8 @@ const App = () => {
           setDrawerOpen={handleSetDrawerOpen}
         />
         <Route exact path='/' component={() => <Dashboard drawerOpen={drawerOpen} />} />
-        <Route path='/employees' component={() => <Employees drawerOpen={drawerOpen} />} />
+        <Route exact path='/employees' component={() => <Employees drawerOpen={drawerOpen} />} />
+        <Route exact path='/employees/:id' component={() => <EmployeeProfile drawerOpen={drawerOpen} />} />
         <Route path='/skills' component={() => <Skills drawerOpen={drawerOpen} />} />
         </div>
         </CssBaseline>

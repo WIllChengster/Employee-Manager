@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import { makeStyles } from '@material-ui/core/styles'
 import { useQuery, gql } from '@apollo/client'
+import { useHistory } from 'react-router-dom'
 
 const ListEmployees = gql` query ListEmployees{
   listEmployees {
@@ -21,6 +22,7 @@ const ListEmployees = gql` query ListEmployees{
           }
         }
       }
+      id
     }
   }
 }
@@ -40,18 +42,22 @@ const useStyles = makeStyles(theme => ({
     paper: {
         margin: `${theme.spacing(3)}px auto`,
         width: '95%'
+    },
+    cursor: {
+        cursor: 'pointer'
     }
 }))
 
 
 const EmployeeList = () => {
-    const { loading, data } = useQuery(ListEmployees);
+    const history = useHistory()
+    const { loading, data } = useQuery(ListEmployees)
     const classes = useStyles()
     const employeeMap = !loading ? data.listEmployees.items.map((employee: any, index: number) => {
         let initials = employee.firstname[0].toUpperCase() + employee.lastname[0].toUpperCase()
         return (
             <div key={index} >
-                <ListItem>
+                <ListItem className={classes.cursor} onClick={() => history.push(`/employees/${employee.id}`)} >
                     <ListItemAvatar>
                         <Typography className={classes.avatar}>
                             {initials}
