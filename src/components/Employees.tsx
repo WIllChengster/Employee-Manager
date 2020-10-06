@@ -90,6 +90,15 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
         setLastname(e.currentTarget.value)
     }
 
+    type SkillsType = {
+        name: string,
+        id: string,
+    }
+    const handleSkills = (skills: SkillsType[]) => {
+        setSkills( prevState => skills)
+        console.log(skills);
+    }
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         addEmployee({variables: {firstname, lastname, skills: ['asd']}})
@@ -107,7 +116,7 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
             </Typography>
 
             <Paper className={classes.paper} >
-                <form className={classes.form} onSubmit={handleSubmit}>
+                <form className={classes.form} >
                     <div className={classes.nameContainer} >
                         <TextField 
                         id="firstname"
@@ -126,12 +135,13 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
                             variant='outlined'
                         />
                     </div>
-                    <SkillAutoComplete/>
+                    <SkillAutoComplete handleSkills={handleSkills}/>
                     <Button
                         className={classes.button}
                         variant="contained"
                         color="default"
-                        type="submit"
+                        type="button"
+                        onClick={handleSubmit}
                     >
                         Create Employee
                     </Button>

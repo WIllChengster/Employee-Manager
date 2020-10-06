@@ -14,7 +14,6 @@ const LIST_SKILLS = gql`query listSkills {
     }
   }
 }
-
 `
 
 const Label = styled('label')`
@@ -141,7 +140,11 @@ type skillType = {
   id: string,
   name: string
 }
-const SkillAutocomplete = () => {
+
+type SkillAutoCompleteProps = {
+  handleSkills: Function
+}
+const SkillAutocomplete = ({handleSkills}: SkillAutoCompleteProps) => {
   const { loading, error, data } = useQuery(LIST_SKILLS)
   const [skills, updateSkills] = useState([{id: '', name:'hey'}])
   useEffect( () => {
@@ -168,13 +171,15 @@ const SkillAutocomplete = () => {
     getOptionLabel: (option) => option.name,
   });
   
-  console.log(skills);
-  
+  useEffect( () => {
+    handleSkills(value)
+  }, [value])
+
   return (
     <NoSsr>
       <div>
         <div {...getRootProps()}>
-          <Label {...getInputLabelProps()}>Customized hook</Label>
+          <Label {...getInputLabelProps()}>Skills</Label>
           <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
             {value.map((option: skillType, index: number) => (
               <Tag label={option.name} {...getTagProps({ index })} />
