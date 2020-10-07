@@ -4,8 +4,9 @@ import NoSsr from '@material-ui/core/NoSsr';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
-import { gql, useQuery } from '@apollo/client'
+import { gql, useQuery, useMutation } from '@apollo/client'
 import { SkillsType } from '../types'
+import Button from '@material-ui/core/Button'
 
 const LIST_SKILLS = gql`query listSkills {
   listSkills {
@@ -15,6 +16,15 @@ const LIST_SKILLS = gql`query listSkills {
     }
   }
 }
+`
+
+const createSkillQuery = gql`
+  mutation createSkill($name: String!){
+    createSkill(input: {name: $name}) {
+      id
+      name
+    }
+  }
 `
 
 const Label = styled('label')`
@@ -140,16 +150,17 @@ const Listbox = styled('ul')`
 type SkillAutoCompleteProps = {
   handleSkills: Function
 }
-const SkillAutocomplete = ({handleSkills}: SkillAutoCompleteProps) => {
-  const { loading, data } = useQuery(LIST_SKILLS)
-  const [skills, updateSkills] = useState([{id: '', name:''}])
-  
-  useEffect( () => {
-    if(!loading){
-      updateSkills( prevSkills => data.listSkills.items)
+const SkillAutocomplete = ({ handleSkills }: SkillAutoCompleteProps) => {
+  const { loading, data, refetch } = useQuery(LIST_SKILLS)
+  const [createSkill] = useMutation(createSkillQuery)
+  const [skills, updateSkills] = useState([{ id: '', name: '' }])
+
+  useEffect(() => {
+    if (!loading) {
+      updateSkills(prevSkills => data.listSkills.items)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading] )
+  }, [loading])
   const {
     getRootProps,
     getInputLabelProps,
@@ -162,18 +173,27 @@ const SkillAutocomplete = ({handleSkills}: SkillAutoCompleteProps) => {
     focused,
     setAnchorEl,
   } = useAutocomplete({
-    id: 'customized-hook-demo',
+    id: 'skill-autocomplete-hook',
     // defaultValue: ,
     multiple: true,
     options: skills,
     getOptionLabel: (option) => option.name,
   });
-  
-  useEffect( () => {
+  const inputProps: any = getInputProps()
+  const handleCreateSkill = () => {
+    createSkill({ variables: { name: inputProps.value } }).then(res => {
+      updateSkills(prevState => {
+        return [
+          ...prevState,
+          res.data.createSkill
+        ]
+      })
+    })
+  }
+  useEffect(() => {
     handleSkills(value)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
-
   return (
     <NoSsr>
       <div>
@@ -186,7 +206,7 @@ const SkillAutocomplete = ({handleSkills}: SkillAutoCompleteProps) => {
             <input {...getInputProps()} />
           </InputWrapper>
         </div>
-        {groupedOptions.length > 0 ? (
+        {focused ? (
           <Listbox {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
               <li {...getOptionProps({ option, index })}>
@@ -194,6 +214,13 @@ const SkillAutocomplete = ({handleSkills}: SkillAutoCompleteProps) => {
                 <CheckIcon fontSize="small" />
               </li>
             ))}
+            {inputProps.value ? (
+              <li>
+                <p>This Skill doesn't exist yet
+                  <Button onClick={handleCreateSkill} >Add Skill</Button>
+                </p>
+              </li>
+            ) : null}
           </Listbox>
         ) : null}
       </div>

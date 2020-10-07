@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { drawerWidth } from '../App'
-import { gql, useQuery } from '@apollo/client'
+import { gql, useQuery, useMutation } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
+import IconButton from '@material-ui/core/IconButton'
+import AddBoxIcon from '@material-ui/icons/AddBox'
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
 
-const getEmployee = gql`
+const getEmployeeQuery = gql`
     query getEmployee($id: ID!) {
         getEmployee(id: $id) {
             createdAt
@@ -17,11 +20,20 @@ const getEmployee = gql`
             id
             skills {
                 items {
+                    id
                     skill {
                         name
                     }
                 }
             }
+        }
+    }
+`
+
+const deleteSkillQuery = gql`
+    mutation deleteSkill($id: ID!) {
+        deleteEmployeeSkill(input: {id: $id}){
+            id
         }
     }
 `
@@ -69,7 +81,9 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.secondary.light,
         margin: theme.spacing(2),
         borderRadius: '10%'
-
+    }, 
+    inline: {
+        display: 'inline'
     }
 
 }))
@@ -92,29 +106,40 @@ const EmployeePlaceholder = {
 const EmployeeProfile = ({ drawerOpen }: DashboardProps) => {
     const classes = useStyles()
     const { id } = useParams() as { id: string }
-    const { data, loading } = useQuery(getEmployee, {
+    const { data, loading, refetch } = useQuery(getEmployeeQuery, {
         variables: { id }
     })
+    const [deleteSkill] = useMutation(deleteSkillQuery)
     const [employee, setEmployee] = useState<any>(EmployeePlaceholder)
+    const [editing, setEditing] = useState<Boolean>(false);
+    console.log(data)
     useEffect(() => {
         if (!loading) {
             setEmployee(data.getEmployee)
-
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading])
 
+    const removeSkill = (skillId: string) => {
+        deleteSkill({variables: {id: skillId}}).then( res => {
+            refetch()
+        })
+    }
+
     const skillMap = employee.skills.items.map((skill: any, index: number) => {
+        console.log(skill)
         return (
-            <Grid item className={classes.skill} key={index} >
-                <Typography >
+            <Grid item className={classes.skill} key={index} onClick={() => removeSkill(skill.id)} >
+                <Typography className={classes.inline}>
                     {skill.skill.name}
                 </Typography>
+                <IconButton className={classes.inline} >
+                    <RemoveCircleOutlineIcon/>
+                </IconButton>
             </Grid>
         )
     })
     let initials = employee.firstname[0].toUpperCase() + employee.lastname[0].toUpperCase()
-
     return (
         <div
             className={clsx(classes.content, {
@@ -138,9 +163,10 @@ const EmployeeProfile = ({ drawerOpen }: DashboardProps) => {
 
                     <Grid container spacing={3} alignItems="center" >
                         <Typography variant="body1">Skills:</Typography>
-
-                        {skillMap}
-
+                        {skillMap} 
+                        <IconButton onClick={() => setEditing(prevVal => !prevVal)} >
+                            <AddBoxIcon/>
+                        </IconButton>
                     </Grid>
                 </Grid>
 

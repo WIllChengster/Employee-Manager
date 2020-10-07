@@ -15,16 +15,16 @@ const DrawerList = () => {
     const classes = useStyles()
     const history = useHistory()
     const links = [
+        // {
+        //     text: 'Dashboard',
+        //     link: '/',
+        // },
         {
-            text: 'Dashboard',
+            text: 'Employees',
             link: '/',
         },
         {
-            text: 'Employees',
-            link: '/employees',
-        },
-        {
-            text: 'Skills',
+            text: 'Search',
             link: '/skills',
         }
     ]

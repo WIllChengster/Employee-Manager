@@ -33,9 +33,9 @@ const App = () => {
           drawerOpen={drawerOpen} 
           setDrawerOpen={handleSetDrawerOpen}
         />
-        <Route exact path='/' component={() => <Dashboard drawerOpen={drawerOpen} />} />
-        <Route exact path='/employees' component={() => <Employees drawerOpen={drawerOpen} />} />
-        <Route exact path='/employees/:id' component={() => <EmployeeProfile drawerOpen={drawerOpen} />} />
+        {/* <Route exact path='/' component={() => <Dashboard drawerOpen={drawerOpen} />} /> */}
+        <Route exact path='/' component={() => <Employees drawerOpen={drawerOpen} />} />
+        <Route path='/employees/:id' component={() => <EmployeeProfile drawerOpen={drawerOpen} />} />
         <Route path='/skills' component={() => <Skills drawerOpen={drawerOpen} />} />
         </div>
         </CssBaseline>
