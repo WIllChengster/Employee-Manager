@@ -10,6 +10,9 @@ import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
+import SkillAutocomplete from './SkillAutocomplete'
+import { SkillsType } from '../types'
+import Button from '@material-ui/core/Button'
 
 const getEmployeeQuery = gql`
     query getEmployee($id: ID!) {
@@ -28,6 +31,13 @@ const getEmployeeQuery = gql`
             }
         }
     }
+`
+const CreateEmployeeSkill = gql`
+   mutation CreateEmployeeSkill($employeeId: ID!, $skillId: ID!) {
+           createEmployeeSkill( input: {employeeSkillEmployeeId: $employeeId, employeeSkillSkillId: $skillId} ) {
+               id
+           }
+       }
 `
 
 const deleteSkillQuery = gql`
@@ -81,9 +91,15 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.secondary.light,
         margin: theme.spacing(2),
         borderRadius: '10%'
-    }, 
+    },
     inline: {
         display: 'inline'
+    },
+    hidden: {
+        display: 'none',
+    },
+    paper: {
+        padding: theme.spacing(6)
     }
 
 }))
@@ -106,39 +122,60 @@ const EmployeePlaceholder = {
 const EmployeeProfile = ({ drawerOpen }: DashboardProps) => {
     const classes = useStyles()
     const { id } = useParams() as { id: string }
-    const { data, loading, refetch } = useQuery(getEmployeeQuery, {
-        variables: { id }
-    })
+    const { data, loading, refetch } = useQuery(getEmployeeQuery, { variables: { id } })
+    const [addEmployeeSkill] = useMutation(CreateEmployeeSkill)
     const [deleteSkill] = useMutation(deleteSkillQuery)
     const [employee, setEmployee] = useState<any>(EmployeePlaceholder)
-    const [editing, setEditing] = useState<Boolean>(false);
-    console.log(data)
+    const [adding, setAdding] = useState<boolean>(false);
+    const [skillsInput, setSkillsInput] = useState<SkillsType[]>([])
+
     useEffect(() => {
         if (!loading) {
-            setEmployee(data.getEmployee)
+            setEmployee((prevState: any) => data.getEmployee)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading])
 
     const removeSkill = (skillId: string) => {
-        deleteSkill({variables: {id: skillId}}).then( res => {
-            refetch()
+        deleteSkill({ variables: { id: skillId } }).then(res => {
+            refetch().then(res => {
+                setEmployee((prevState: any) => res.data.getEmployee)
+            })
         })
     }
 
+    const handleSkills = (skills: SkillsType[]) => {
+        setSkillsInput(prevState => skills)
+    }
+
+    const submitSkills = () => {
+        for (let i = 0; i < skillsInput.length; i++) {
+            AsyncAddEmployeeSkill(employee.id, skillsInput[i].id)
+        }
+        refetch().then(res => {
+            setEmployee((prevState: any) => res.data.getEmployee)
+        })
+    }
+
+    const AsyncAddEmployeeSkill = async (employeeId: String, skillId: String) => {
+        const response = addEmployeeSkill({ variables: { employeeId, skillId } })
+        const data = await response
+        return data
+    }
+
     const skillMap = employee.skills.items.map((skill: any, index: number) => {
-        console.log(skill)
         return (
             <Grid item className={classes.skill} key={index} onClick={() => removeSkill(skill.id)} >
                 <Typography className={classes.inline}>
                     {skill.skill.name}
                 </Typography>
                 <IconButton className={classes.inline} >
-                    <RemoveCircleOutlineIcon/>
+                    <RemoveCircleOutlineIcon />
                 </IconButton>
             </Grid>
         )
     })
+
     let initials = employee.firstname[0].toUpperCase() + employee.lastname[0].toUpperCase()
     return (
         <div
@@ -147,7 +184,9 @@ const EmployeeProfile = ({ drawerOpen }: DashboardProps) => {
             })}
         >
             <div className={classes.drawerHeader} />
-            <Paper>
+
+
+            <Paper className={classes.paper} >
                 <Grid container>
                     <Grid item xs={6}>
                         <div className={classes.avatar} >
@@ -163,16 +202,21 @@ const EmployeeProfile = ({ drawerOpen }: DashboardProps) => {
 
                     <Grid container spacing={3} alignItems="center" >
                         <Typography variant="body1">Skills:</Typography>
-                        {skillMap} 
-                        <IconButton onClick={() => setEditing(prevVal => !prevVal)} >
-                            <AddBoxIcon/>
+                        {skillMap}
+                        <IconButton onClick={() => setAdding(prevVal => !prevVal)} >
+                            <AddBoxIcon />
                         </IconButton>
                     </Grid>
                 </Grid>
-
             </Paper>
-
-
+            <Paper
+                className={clsx(classes.paper, {
+                    [classes.hidden]: !adding
+                })} >
+                <Typography>Enter desired skills</Typography>
+                <SkillAutocomplete handleSkills={handleSkills} />
+                <Button variant="contained" onClick={submitSkills}>Submit</Button>
+            </Paper>
         </div>
     )
 }

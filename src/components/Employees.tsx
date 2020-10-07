@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button'
 import SkillAutoComplete from './SkillAutocomplete'
 import { useMutation, gql } from '@apollo/client'
 import { SkillsType } from '../types'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
     content: {
@@ -85,6 +86,7 @@ const CreateEmployeeSkill = gql`
 `
 
 const Employees = ({ drawerOpen }: EmployeesProps) => {
+    const history = useHistory()
     const classes = useStyles()
     const [firstname, setFirstname] = useState<string>('')
     const [lastname, setLastname] = useState<string>('')
@@ -121,6 +123,7 @@ const Employees = ({ drawerOpen }: EmployeesProps) => {
             for(let i = 0; i < skills.length; i++){
                 AsyncAddEmployeeSkill(employeeId, skills[i].id)
             }
+            history.push(`/employees/${employeeId}`)
         })
     }
 

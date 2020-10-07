@@ -151,7 +151,7 @@ type SkillAutoCompleteProps = {
   handleSkills: Function
 }
 const SkillAutocomplete = ({ handleSkills }: SkillAutoCompleteProps) => {
-  const { loading, data, refetch } = useQuery(LIST_SKILLS)
+  const { loading, data } = useQuery(LIST_SKILLS)
   const [createSkill] = useMutation(createSkillQuery)
   const [skills, updateSkills] = useState([{ id: '', name: '' }])
 
