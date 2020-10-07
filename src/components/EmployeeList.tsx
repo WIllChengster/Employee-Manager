@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
+import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 import { useQuery, gql } from '@apollo/client'
 import { useHistory } from 'react-router-dom'
@@ -64,6 +65,7 @@ const EmployeeList = () => {
                         </Typography>
                     </ListItemAvatar>
                     <ListItemText primary={`${employee.firstname} ${employee.lastname}`} />
+                    <Button>View Profile</Button>
                 </ListItem>
                 <Divider />
             </div>

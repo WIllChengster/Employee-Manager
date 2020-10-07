@@ -5,10 +5,13 @@ import { drawerWidth } from '../App'
 import { gql, useQuery } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
-import { SkillsType } from '../types'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+
 const getEmployee = gql`
     query getEmployee($id: ID!) {
         getEmployee(id: $id) {
+            createdAt
             firstname
             lastname
             id
@@ -48,6 +51,26 @@ const useStyles = makeStyles(theme => ({
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
     },
+    avatar: {
+        height: '150px',
+        width: '150px',
+        border: '1px solid black',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: '10%'
+    },
+    center: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    skill: {
+        backgroundColor: theme.palette.secondary.light,
+        margin: theme.spacing(2),
+        borderRadius: '10%'
+
+    }
 
 }))
 
@@ -57,8 +80,8 @@ type DashboardProps = {
     drawerOpen: boolean
 }
 const EmployeePlaceholder = {
-    firstname: '',
-    lastname: '',
+    firstname: '?',
+    lastname: '?',
     id: '',
     skills: {
         items: []
@@ -80,15 +103,17 @@ const EmployeeProfile = ({ drawerOpen }: DashboardProps) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading])
-    console.log(employee)
-    
-    const skillMap = employee.skills.items.map( (skill:any , index:number ) => {
+
+    const skillMap = employee.skills.items.map((skill: any, index: number) => {
         return (
-            <Typography key={index} >
-                {skill.skill.name}
-            </Typography>
+            <Grid item className={classes.skill} key={index} >
+                <Typography >
+                    {skill.skill.name}
+                </Typography>
+            </Grid>
         )
     })
+    let initials = employee.firstname[0].toUpperCase() + employee.lastname[0].toUpperCase()
 
     return (
         <div
@@ -97,11 +122,30 @@ const EmployeeProfile = ({ drawerOpen }: DashboardProps) => {
             })}
         >
             <div className={classes.drawerHeader} />
+            <Paper>
+                <Grid container>
+                    <Grid item xs={6}>
+                        <div className={classes.avatar} >
+                            <Typography variant='h1'>{initials}</Typography>
+                        </div>
+                    </Grid>
+                    <Grid item xs={6} className={classes.center} >
+                        <Typography> Employee Since: {employee.createdAt}</Typography>
+                    </Grid>
+                    <Typography variant="h6">
+                        {employee.firstname} {employee.lastname}
+                    </Typography>
 
-            <Typography>
-                {employee.firstname} {employee.lastname}
-            </Typography>
-            {skillMap}
+                    <Grid container spacing={3} alignItems="center" >
+                        <Typography variant="body1">Skills:</Typography>
+
+                        {skillMap}
+
+                    </Grid>
+                </Grid>
+
+            </Paper>
+
 
         </div>
     )

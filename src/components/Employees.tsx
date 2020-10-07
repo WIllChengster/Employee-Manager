@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto',
     },
     form: {
-        padding: theme.spacing(6),
+        padding: theme.spacing(12),
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -53,9 +53,10 @@ const useStyles = makeStyles(theme => ({
     },
     nameContainer: {
         display: 'flex',
+        
     },
     name: {
-        margin: `0 ${theme.spacing(2)}px`
+        margin: `${theme.spacing(5)}px ${theme.spacing(2)}px`
     },
     button: {
         marginTop: theme.spacing(6)
