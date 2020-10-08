@@ -11,18 +11,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useQuery, gql } from '@apollo/client'
 import { useHistory } from 'react-router-dom'
 
-const ListEmployees = gql` query ListEmployees{
+export const ListEmployees = gql` query ListEmployees{
   listEmployees {
     items {
       firstname
       lastname
-      skills {
-        items {
-          skill {
-            name
-          }
-        }
-      }
       id
     }
   }

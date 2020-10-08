@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-const getEmployees = gql`
+export const getEmployeeSkills = gql`
     query getEmployeeSkills {
         listEmployeeSkills {
             items {
@@ -85,28 +85,11 @@ const Skills = ({ drawerOpen }: SkillProps) => {
     const classes = useStyles()
     const [skills, setSkills] = useState<SkillsType[]>([{ id: '', name: '' }])
     const [emptyError, setEmptyError] = useState<Boolean>(false)
-    const { data, loading } = useQuery(getEmployees)
+    const { data, loading } = useQuery(getEmployeeSkills)
     const [employees, setEmployees] = useState<any[]>([])
     const handleSkills = (skills: SkillsType[]) => {
         setSkills(prevState => skills)
     }
-    // useEffect( () => {
-    //     if(!loading){
-    //         const filteredEmployees = []
-    //         const items = data.listEmployeeSkills.items
-
-    //         for(let i = 0; i < items.length; i++){
-    //             for(let j = 0; j < skills.length; j++){
-    //                 if(items[i].skill.id === skills[j].id){
-    //                     filteredEmployees.push(items[i].employee)
-    //                 }
-    //             }
-
-    //         }
-    //         console.log(filteredEmployees)
-    //         // setEmployees(prevState => data)
-    //     }
-    // }, [loading] )
 
     const handleButton = () => {
         if(skills.length === 0){

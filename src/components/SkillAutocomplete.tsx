@@ -8,7 +8,7 @@ import { gql, useQuery, useMutation } from '@apollo/client'
 import { SkillsType } from '../types'
 import Button from '@material-ui/core/Button'
 
-const LIST_SKILLS = gql`query listSkills {
+export const LIST_SKILLS = gql`query listSkills {
   listSkills {
     items {
       id
@@ -18,7 +18,7 @@ const LIST_SKILLS = gql`query listSkills {
 }
 `
 
-const createSkillQuery = gql`
+export const createSkillQuery = gql`
   mutation createSkill($name: String!){
     createSkill(input: {name: $name}) {
       id
