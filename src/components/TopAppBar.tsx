@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import { drawerWidth } from '../App'
+import logo from '../assets/transparent-logo.png'
 
 
 type TopAppBarProps = {
@@ -38,8 +39,18 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
+    toolbar: {
+        display: 'flex',
+        alignItems:'center',
+        justifyContent: 'flex-start'
+    },
     hide: {
         display: 'none',
+    },
+    logo: {
+        height: '2rem',
+        color: 'white',
+        margin: '0 1rem',
     }
 }))
 
@@ -52,7 +63,7 @@ const TopAppBar = ({ drawerOpen, setDrawerOpen }: TopAppBarProps) => {
             })} 
             position= 'fixed'
         >
-            <Toolbar>
+            <Toolbar className={classes.toolbar} >
                 <IconButton 
                     className={clsx(classes.menuButton, {
                         [classes.hide]: drawerOpen
@@ -62,6 +73,8 @@ const TopAppBar = ({ drawerOpen, setDrawerOpen }: TopAppBarProps) => {
                 >
                     <MenuIcon />
                 </IconButton>
+                <img src={logo} className={classes.logo}/>
+
                 <Typography 
                     variant="h6" 
                     className={classes.title} 
